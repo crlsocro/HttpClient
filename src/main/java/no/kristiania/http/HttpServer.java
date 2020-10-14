@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,9 +149,11 @@ public class HttpServer {
 
         String body = "<ul>";
         for (String name : projectNames) {
+            name = URLDecoder.decode(name, StandardCharsets.UTF_8.toString());
             body += "<li>" + name + "</li>";
         }
         for (String email : projectEmail) {
+            email = URLDecoder.decode(email, StandardCharsets.UTF_8.toString());
             body += "<li>" + email + "</li>";
         }
         body += "</ul>";
@@ -162,6 +166,7 @@ public class HttpServer {
 
         clientSocket.getOutputStream().write(response.getBytes());
     }
+
 
     private void handleEchoRequest(Socket clientSocket, String requestTarget, int questionPos) throws IOException {
         String statusCode = "200";
